@@ -1,0 +1,52 @@
+[tool.briefcase]
+project_name = "Anagrams Game"
+bundle = "com.example"
+version = "0.0.1"
+url = "https://example.com/anagramsgame"
+license = "BSD license"
+author = 'Sourabh Boruah'
+author_email = "sourabhboruah@gmail.com"
+
+[tool.briefcase.app.anagramsgame]
+formal_name = "Anagrams Game"
+description = "A simple Anagrams game"
+icon = "src/anagramsgame/resources/anagramsgame"
+sources = ['src/anagramsgame']
+requires = [
+]
+
+
+[tool.briefcase.app.anagramsgame.macOS]
+requires = [
+    'toga-cocoa>=0.3.0.dev32',
+    'std-nslog==1.0.0'
+]
+
+[tool.briefcase.app.anagramsgame.linux]
+requires = [
+    'toga-gtk>=0.3.0.dev32',
+]
+system_requires = [
+    'libgirepository1.0-dev',
+    'libcairo2-dev',
+    'libpango1.0-dev',
+    'libwebkitgtk-3.0-0',
+    'gir1.2-webkit-3.0',
+]
+
+[tool.briefcase.app.anagramsgame.windows]
+requires = [
+    'toga-winforms>=0.3.0.dev32',
+]
+
+# Mobile deployments
+[tool.briefcase.app.anagramsgame.iOS]
+requires = [
+    'toga-iOS>=0.3.0.dev32',
+    'std-nslog==1.0.0'
+]
+
+[tool.briefcase.app.anagramsgame.android]
+requires = [
+    'toga-android>=0.3.0.dev32'
+]

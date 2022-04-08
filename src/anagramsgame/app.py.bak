@@ -1,0 +1,95 @@
+import toga
+from toga.style import Pack
+from toga.style.pack import COLUMN, ROW
+import random
+
+class AnagramsGame(toga.App):
+    word_length_min=3
+    word_length_max=6
+    score=0
+    dictionary_url='https://raw.githubusercontent.com/dolph/dictionary/master/popular.txt'
+    dictionary=[]
+    value=1
+    success=True
+    def startup(self):
+        main_box=toga.Box(style=Pack(direction=COLUMN, padding=5))
+        num_words_label=toga.Label(
+            'Words: 0',
+            style=Pack(padding=(0, 15))
+        )
+        word_min_length_label=toga.Label(
+            'Word length min: ',
+            style=Pack(padding=(0, 5))
+        )
+        word_max_length_label=toga.Label(
+            'Word length max: ',
+            style=Pack(padding=(0, 5))
+        )
+        self.word_min_length_input = toga.NumberInput(style=Pack(flex=1),default=self.word_length_min,on_change=self.set_word_length_min)
+        self.word_max_length_input = toga.NumberInput(style=Pack(flex=1),default=self.word_length_max,on_change=self.set_word_length_max)
+        config_box=toga.Box(style=Pack(direction=ROW, padding=5))
+        config_box.add(num_words_label)
+        config_box.add(word_min_length_label)
+        config_box.add(self.word_min_length_input)
+        config_box.add(word_max_length_label)
+        config_box.add(self.word_max_length_input)
+        main_box.add(config_box)
+        console_box=toga.Table(headings=['Score','Letters','Guess'])
+        main_box.add(console_box)
+        guess_label = toga.Label(
+            'Your guess: ',
+            style=Pack(padding=(0, 5))
+        )
+        self.guess_input = toga.TextInput(style=Pack(flex=1))
+        guess_button = toga.Button(
+            'Apply',
+            on_press=self.apply_guess,
+            style=Pack(direction=ROW, padding=5)
+        )
+        guess_box = toga.Box(style=Pack(direction=ROW, padding=5))
+        guess_box.add(guess_label)
+        guess_box.add(self.guess_input)
+        guess_box.add(guess_button)
+        main_box.add(guess_box)
+        # shuffle_button = toga.Button(
+            # 'Shuffle',
+            # on_press=self.shuffle,
+            # style=Pack(direction=ROW, padding=5)
+        # )
+        # answer_button = toga.Button(
+            # 'Give up',
+            # on_press=self.answer,
+            # style=Pack(direction=ROW, padding=5)
+        # )
+        # button_box = toga.Box(style=Pack(direction=COLUMN))
+        # button_box.add(guess_box)
+        # button_box.add(guess_button)
+        # button_box.add(shuffle_button)
+        # button_box.add(answer_button)
+        # main_box.add(button_box)
+        #self.load_dictionary()
+
+
+
+        self.main_window = toga.MainWindow(title=self.formal_name)
+        self.main_window.content = main_box
+        self.main_window.show()
+        
+    def set_word_length_min(self,widget):
+        if self.word_min_length_input.value<1: self.word_min_length_input.value=1
+        self.word_length_min=self.word_min_length_input.value
+    def set_word_length_max(self,widget):
+        if self.word_max_length_input.value<1: self.word_max_length_input.value=1
+        self.word_length_max=self.word_max_length_input.value
+
+    def apply_guess(self, widget):
+        self.main_window.info_dialog(
+            'Hello, {}'.format(self.name_input.value),
+            'Hi there!'
+        )
+    def anagrams(s1,s2):
+        return [False, True][sum([ord(x) for x in s1]) == sum([ord(x) for x in s2])]
+        
+
+def main():
+    return AnagramsGame()
